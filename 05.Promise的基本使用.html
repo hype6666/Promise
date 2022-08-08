@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <!--
+    两种状态的改变
+    pending====>fulfilled
+    pending====>rejected
+    状态只能改变一次
+    一个Promise指定多个成功/失败的回调函数 都会调用
+-->
+    <script>
+        const p = new Promise((resolve, reject) => {
+            // setTimeout(() => {
+            //     //函数体
+            //     resolve('我是服务器返回的数据')
+            // }, 2000)
+            const xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                       resolve(xhr.response)
+                    }else{
+                        reject('请求出错')
+                    }
+                }
+            }
+            xhr.open('GET', 'https://api.apiopen.top/api/sentences\n')
+            xhr.responseType='json'
+            xhr.send()
+        })
+        p.then((value) => {
+            console.log('成功了-----'+value)//成功的回调
+        }, (reason) => {
+            console.log('失败------'+reason)//失败的回调
+        });
+        p.then((value) => {
+            console.log('成功了2-----'+value)//成功的回调
+        }, (reason) => {
+            console.log('失败2------'+reason)//失败的回调
+        })
+        console.log("@")
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>08.Promise关键的几个问题</title>
+</head>
+<body>
+<!--
+    1.如何改变一个Promise实例的状态
+        (1)执行resolve(value):如果当前是pending就会变成fulfilled
+        (2)执行reject(reason):如果当前是pending就会变成rejected
+        (3)执行器函数(executor)抛出异常:如果当前是pending就会变成rejec
+
+-->
+<script>
+    const p=new Promise(
+        (resolve,reject)=>{
+           // resolve(1000);
+            //console.log(a)//引擎抛异常
+            resolve(100)
+            throw 1000//编码抛异常
+            console.log(1)
+        }
+    )
+    p.then(
+        value => {
+            console.log('成功了',value)},
+        reason => {
+            console.log('失败了',reason)}
+    )
+</script>
+</body>
+</html>

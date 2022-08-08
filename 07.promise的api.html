@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>07.promise的api</title>
+</head>
+<body>
+<!--1.1 Promise 构造函数：new Promise ( executor ) { }
+    executor 函数：是同步执行的，( resolve, reject ) => { }
+    resolve 函数：调用 resolve 将 Promise 实例内部状态改为成功 ( fulfiled )。
+    reject 函数：调用 reject 将 Promise 实例内部状态改为失败 ( rejected )。
+    说明：executor 函数会在 Promise 内部立即同步调用，异步代码放在 executor 函数中。
+1.2 Promise.prototype.then 方法：Promise 实例.then( onFulfilled, onRejected )
+   onFulfilled：成功的回调函数 —— (value) => { }
+   onRejected：失败的回调函数 —— (reason) => { }
+   注意：then 方法会返回一个新的 Promise 实例对象。
+1.3 Promise.prototype.catch 方法：Promise 实例.catch ( onRejected )
+   onRejected：失败的回调函数 —— (reason) => { }
+   说明：catch 方法是 then 方法的语法糖，相当于：then( undefined, onRejected )。
+1.4 Promise.resolve( value ) / Promise.reject( reason )
+   Promise.resolve( value )：用于快速返回一个状态为 fulfilled 的 Promise 实例对象。
+   value 的值可能是：（1）非 Promise 值，例如数组，字符串等等。（2）Promise 值。
+   Promise.reject( reason )：用于快速返回一个状态为 rejected 的 Promise 实例对象。
+1.5Promise.all( promiseArr )
+   promiseArr：包含 n 个 Promise 实例的数组。
+   明：返回一个新的 Promise 实例，只有所有的 promise 都成功才成功，只有一个失败了就直接失败。
+1.6Promise.race( promiseArr )
+   promiseArr：包含 n 个 Promise 实例的数组。
+   说明：返回一个新的 Promise 实例，以最先出结果的 promise 为准。
+-->
+<script>
+//验证 then方法会返回一个新的Promise实例对象(暂且不研究返回的这个新的promise实例状态怎么变化)
+/*const p=new Promise((resolve, reject)=>{
+    setTimeout(()=>{
+        resolve(100)
+    },1000)
+})
+p.then(
+    value=>{
+        console.log(value)},
+    reason => {
+        console.log(reason)
+    }
+)*/
+//Promise.prototype.then 方法
+/*const p=new Promise((resolve,reject)=>{
+    setTimeout(()=>{
+        reject(-100)
+    },1000)
+})
+// p.then(undefined,
+// reason => {
+//     console.log('失败了1',reason)})
+p.then(value => {
+    console.log('成功了',value)})
+p.catch(
+    reason => {
+        console.log('失败了2',reason)}
+)*/
+//Promise.resolve
+/*const p=new Promise((resolve, reject)=>{
+    resolve(100)
+})*/
+/*const p0=Promise.reject(100)
+const p=Promise.resolve(p0)
+p.then(value => {
+    console.log('成功了',value)},
+reason => {
+    console.log('失败了',reason)})*/
+//Promise.reject
+/*const p0=Promise.resolve(100)
+const p=Promise.reject(p0)
+p.then(value => {
+    console.log('成功了',value)},
+reason => {
+    console.log('失败了',reason)})*/
+//promise.all
+/*const p1=Promise.resolve(100);
+const p2=new Promise((resolve, reject)=>{
+    setTimeout(()=>{
+        reject('b')
+    },500)
+})
+const p3=new Promise((resolve, reject)=>{
+    setTimeout(()=>{
+        resolve('c')
+    },2000)
+})
+let x = Promise.all([p1,p2,p3]);
+x.then(value => {
+    console.log('成功了',value)},
+reason => {
+    console.log('失败了',reason)})*/
+//promise.race
+const p1=Promise.resolve('a');
+const p2=new Promise((resolve, reject)=>{
+    setTimeout(()=>{
+        reject('b')
+    },500)
+})
+const p3=new Promise((resolve, reject)=>{
+    setTimeout(()=>{
+        resolve('c')
+    },2000)
+})
+let x = Promise.race([p1,p2,p3]);
+x.then(value => {
+        console.log('成功了',value)},
+    reason => {
+        console.log('失败了',reason)})
+</script>
+</body>
+</html>

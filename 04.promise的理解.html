@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise</title>
+</head>
+<body>
+<script>
+    /**
+     * 1.Promise不是回调函数是一个内置的构造函数 是程序员自己new调用的
+     * 2.new Promise的时候 要传入一个回调函数 它是同步的回调 会立即在主线程上执行 它被称为executor（执行）
+     * 3.每一个Promise实例对象都有3种状态 分别为：初始化(pending) 成功(fulfilled) 失败(rejected)
+     * 4.每一个Promise实例在刚被new出来的那一刻 状态都是初始化
+     * 5。executor函数（3）executor 函数会接收到 2 个参数，它们都是函数，分别用形参：resolve、reject 接收。
+     *  ① 调用 resolve，会让 Promise 实例状态变为：成功 ( fulfilled )，同时可以指定成功的 value。
+     *  ② 调用 reject，会让 Promise 实例状态变为：失败 ( rejected )，同时可以指定失败的 reason。
+     * */
+    //创建一个Promise实例对象
+    const p=new Promise((resolve, reject)=>{
+        resolve('ok')
+    })
+    console.log(p)//一般不把Promise实例在控制台输出
+</script>
+</body>
+</html>

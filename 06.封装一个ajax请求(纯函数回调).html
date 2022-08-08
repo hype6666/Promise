@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>封装一个ajax请求</title>
+</head>
+<body>
+<script>
+    /**
+     * 定义一个sendAjax函数 对xhr的get请求进行封装
+     *      1.该函数接收连个参数，url(请求地址) data(参数对象) success(成功的回调) error(失败的回调)
+     *
+     * */
+
+    function sendAjax(url,data,success,error) {
+            const xhr=new XMLHttpRequest()
+            xhr.onreadystatechange=()=>{
+                if (xhr.readyState===4){
+                    if (xhr.status>=200&&xhr.status<300){
+                      success(xhr.response)
+                    }else{
+                        error('请求出问题了')
+                    }
+                }
+            }
+            //整理参数
+            let str=''
+            for (let key in data) {
+                str+=`${key}=${data[key]}&`
+            }
+            str.slice(0,-1);
+
+            xhr.open('GET',url+'?'+str)
+             xhr.response='json'
+            xhr.send()
+
+
+    }
+    sendAjax(
+        'https://api.wrdan.com/ip',
+        {ip:"222.85.64.189"},
+        (response)=>{
+            console.log('成功了',response)},//成功的回调
+        (error)=>{
+            console.log('失败了',error)}//失败的回调
+    )
+</script>
+</body>
+</html>
