@@ -35,12 +35,12 @@
             str.slice(0,-1);
 
             xhr.open('GET',url+'?'+str)
-             xhr.response='json'
+             xhr.responseType='json'
             xhr.send()
         })
 
     }
-const x=sendAjax('https://api.wrdan.com/ip',{ip:"222.85.64.189"})
+const x=sendAjax('https://api.apiopen.top/api/getHaoKanVideo',{page:'0',size:'2'})
     x.then((data)=>{
         console.log('成功了',data)
     },(reason)=>{

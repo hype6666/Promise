@@ -7,7 +7,7 @@
 <body>
 <!--1.1 Promise 构造函数：new Promise ( executor ) { }
     executor 函数：是同步执行的，( resolve, reject ) => { }
-    resolve 函数：调用 resolve 将 Promise 实例内部状态改为成功 ( fulfiled )。
+    resolve 函数：调用 resolve 将 Promise 实例内部状态改为成功 ( fulfilled )。
     reject 函数：调用 reject 将 Promise 实例内部状态改为失败 ( rejected )。
     说明：executor 函数会在 Promise 内部立即同步调用，异步代码放在 executor 函数中。
 1.2 Promise.prototype.then 方法：Promise 实例.then( onFulfilled, onRejected )
@@ -103,11 +103,8 @@ const p3=new Promise((resolve, reject)=>{
         resolve('c')
     },2000)
 })
-let x = Promise.race([p1,p2,p3]);
-x.then(value => {
-        console.log('成功了',value)},
-    reason => {
-        console.log('失败了',reason)})
+let x = Promise.race([p1,p2,p3])
+x.then
 </script>
 </body>
 </html>

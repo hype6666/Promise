@@ -24,28 +24,27 @@
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
-                       resolve(xhr.response)
-                    }else{
+                        resolve(xhr.response)
+                    } else {
                         reject('请求出错')
                     }
                 }
             }
-            xhr.open('GET', 'https://api.apiopen.top/api/sentences\n')
-            xhr.responseType='json'
+            xhr.open('GET', 'https://api.apiopen.top/api/sentences')
+            xhr.responseType = 'json'
             xhr.send()
         })
         p.then((value) => {
-            console.log('成功了-----'+value)//成功的回调
+            console.log('成功了-----' + value) //成功的回调
         }, (reason) => {
-            console.log('失败------'+reason)//失败的回调
+            console.log('失败------' + reason) //失败的回调
         });
         p.then((value) => {
-            console.log('成功了2-----'+value)//成功的回调
+            console.log('成功了2-----' + value) //成功的回调
         }, (reason) => {
-            console.log('失败2------'+reason)//失败的回调
+            console.log('失败2------' + reason) //失败的回调
         })
         console.log("@")
-
     </script>
 </body>
 
