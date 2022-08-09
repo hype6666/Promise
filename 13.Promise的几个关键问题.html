@@ -1,10 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>13.Promise的几个关键问题</title>
 </head>
 <body>
-$END$
+<script src=""></script>
+<!--
+  promise错误的穿透
+    (1)当使用promise的then；链式调用时 可以在最后用catch指定一个失败的回调
+    (2)前面任何操作出了错误 都会传到最后失败的回调中处理了
+  备注：如果不存在then的链式调用 就不需要考虑then的错误穿透
+-->
+<script type="text/javascript">
+    function sendAjax(url, data, index) {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        resolve(xhr.response)
+                    } else {
+                        reject(`第${index}次请求出问题了`)
+                    }
+                }
+            }
+            //整理参数
+            let str = ''
+            for (let key in data) {
+                str += `${key}=${data[key]}&`
+            }
+            str.slice(0, -1);
+
+            xhr.open('GET', url + '?' + str)
+            xhr.responseType = 'json'
+            xhr.send()
+        })
+    }
+
+    /*sendAjax('https://api.apiopen.top/api/getHaoKanVideo1', {
+        page: '0',
+        size: '2'
+    },1).then(
+        value => {
+
+            console.log('第一次请求成功', value);
+            return sendAjax('https://api.apiopen.top/api/getHaoKanVideo', {
+                page: '0',
+                size: '2'
+            },2)
+        },
+       // reason => {
+       //    console.log('第一次请求失败',reason);
+        //    return new Promise(()=>{})}
+    ).then(
+        value => {
+            console.log('第二次成功了', value);
+            return sendAjax('https://api.apiopen.top/api/getHaoKanVideo', {
+                page: '0',
+                size: '2'
+            },3)
+        },
+       // reason => {
+       //      console.log('第二次请求失败', reason);
+       //      return new Promise(()=>{})
+        //}
+    ).then(
+            value => {
+                console.log('第三次成功了', value);
+            },
+           // reason => {
+           //      console.log('第三次请求失败', reason)
+           //
+           //  }
+        ).catch(
+            reason => {
+                console.log('请求失败',reason)}
+    )*/
+    const p = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject(-1)
+        }, 1000)
+    })
+    p.then(
+        value => {
+            console.log('成功了1', value);
+            return 'b'
+        },
+        //reason => {
+        //    console.log('失败了1',reason);return -2}
+       // reason => {throw reason}
+    ).then(
+        value => {
+            console.log('成功了2', value);
+            return 'c'
+        },
+        // reason => {
+        //     console.log('失败了2',reason);return -3}
+    ).then(
+        value => {
+            console.log('成功了3', value)
+        },
+        //reason => {
+        //   console.log('失败了3',reason)}
+    )
+        .catch(
+            reason => {
+                console.log('失败了', reason)
+            }
+        )
+</script>
 </body>
 </html>
